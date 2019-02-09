@@ -1,0 +1,16 @@
+<h1>Home#index</h1>
+<%= select_tag :publisher_id, options_from_collection_for_select(Publisher.all, :id, :name) %>
+<!--初期表示時は最初のpublisherに紐づくbooksだけ選択できるようにしておく-->
+<%= select_tag :book_id, options_from_collection_for_select(Book.where(publisher_id: Publisher.all.first.id), :id, :name) %>
+
+<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
+<script>
+    $(function () {
+        $('#publisher_id').change(function () {
+            $.get({
+                url: '/home/books',
+                data: {publisher_id: $('#publisher_id').has('option:selected').val()}
+            });
+        });
+    });
+</script>
